@@ -1,0 +1,57 @@
+@import "tailwindcss";
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html, body {
+  background: #121212;
+  color: #fff;
+  font-family: 'Circular', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
+
+#root {
+  min-height: 100vh;
+}
+
+/* Scrollbar escondida mas funcional */
+::-webkit-scrollbar {
+  width: 0;
+  background: transparent;
+}
+
+/* Animação de pulse para o botão CTA */
+@keyframes pulse-green {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(30, 215, 96, 0.4); }
+  50% { box-shadow: 0 0 0 20px rgba(30, 215, 96, 0); }
+}
+
+.pulse-green {
+  animation: pulse-green 2s infinite;
+}
+
+/* Flip animation para o Wordle */
+@keyframes flip {
+  0% { transform: rotateX(0); }
+  50% { transform: rotateX(90deg); }
+  100% { transform: rotateX(0); }
+}
+
+.flip-animate {
+  animation: flip 0.5s ease-in-out;
+}
+
+/* Shake animation para tentativa inválida */
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  20%, 60% { transform: translateX(-4px); }
+  40%, 80% { transform: translateX(4px); }
+}
+
+.shake {
+  animation: shake 0.4s ease-in-out;
+}
