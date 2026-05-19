@@ -1,94 +1,107 @@
 import { motion } from 'framer-motion'
 import { useRelationshipTime } from '../hooks/useRelationshipTime'
 
-function StatCard({ label, value, unit, delay }) {
-  return (
-    <motion.div
-      initial={{ opacity: 0, y: 30 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true }}
-      transition={{ duration: 0.5, delay }}
-      className="flex flex-col items-center bg-white/5 rounded-2xl p-4 border border-white/10"
-    >
-      <span className="text-[#1ED760] font-bold text-3xl tabular-nums leading-none">
-        {String(value).padStart(2, '0')}
-      </span>
-      <span className="text-white/50 text-xs mt-1 uppercase tracking-widest">{label}</span>
-      {unit && <span className="text-white/30 text-[10px]">{unit}</span>}
-    </motion.div>
-  )
-}
+const COUNTERS = [
+  { key: 'years',   label: 'Anos'     },
+  { key: 'months',  label: 'Meses'    },
+  { key: 'days',    label: 'Dias'     },
+  { key: 'hours',   label: 'Horas'    },
+  { key: 'minutes', label: 'Minutos'  },
+  { key: 'seconds', label: 'Segundos' },
+]
 
 export default function StatsSection() {
-  const { years, months, days, hours, seconds, totalDays } = useRelationshipTime()
+  const time = useRelationshipTime()
 
   return (
-    <section className="px-6 py-12 bg-[#121212]">
-      <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true }}
-        transition={{ duration: 0.6 }}
-        className="text-center mb-8"
-      >
-        <p className="text-[#1ED760] text-xs font-semibold tracking-widest uppercase mb-2">
-          ● Ao vivo
-        </p>
-        <h2 className="text-white text-2xl font-bold">Nosso Tempo Juntos</h2>
-        <p className="text-white/40 text-sm mt-1">desde 04 de junho de 2024</p>
-      </motion.div>
+    <section className="bg-[#0e0e0e]">
 
-      {/* Main counters grid */}
-      <div className="grid grid-cols-2 gap-3 mb-3">
-        <StatCard label="Anos" value={years} delay={0.1} />
-        <StatCard label="Meses" value={months} delay={0.2} />
-      </div>
-      <div className="grid grid-cols-3 gap-3 mb-3">
-        <StatCard label="Dias" value={days} delay={0.3} />
-        <StatCard label="Horas" value={hours} delay={0.4} />
-        <StatCard label="Seg" value={seconds} delay={0.5} />
-      </div>
-
-      {/* Total days highlight */}
+      {/* ── Foto do casal ─────────────────────────────────── */}
       <motion.div
-        initial={{ opacity: 0, scale: 0.9 }}
+        initial={{ opacity: 0, scale: 1.05 }}
         whileInView={{ opacity: 1, scale: 1 }}
         viewport={{ once: true }}
-        transition={{ duration: 0.5, delay: 0.6 }}
-        className="text-center py-6 mt-4 rounded-2xl"
-        style={{
-          background: 'linear-gradient(135deg, rgba(30,215,96,0.15) 0%, rgba(30,215,96,0.05) 100%)',
-          border: '1px solid rgba(30,215,96,0.3)',
-        }}
+        transition={{ duration: 0.7 }}
+        className="w-full aspect-[4/3] overflow-hidden relative"
       >
-        <span className="text-[#1ED760] font-bold text-5xl tabular-nums">{totalDays}</span>
-        <p className="text-white/60 text-sm mt-1">dias de amor e cumplicidade</p>
+        <img
+          src="/images/casal.jpg"
+          alt="Hitalo e Sara"
+          className="w-full h-full object-cover"
+          onError={e => {
+            e.target.style.display = 'none'
+            e.target.parentElement.style.background =
+              'linear-gradient(135deg, #0d3320 0%, #1a5c2e 100%)'
+            e.target.parentElement.innerHTML =
+              '<div style="width:100%;height:100%;display:flex;align-items:center;justify-content:center;font-size:72px">💚</div>'
+          }}
+        />
+        {/* Gradiente de transição para baixo */}
+        <div
+          className="absolute inset-x-0 bottom-0 h-24"
+          style={{ background: 'linear-gradient(to bottom, transparent, #0e0e0e)' }}
+        />
       </motion.div>
 
-      {/* Special message */}
+      {/* ── Título / cabeçalho ───────────────────────────── */}
       <motion.div
-        initial={{ opacity: 0, y: 30 }}
+        initial={{ opacity: 0, y: 16 }}
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true }}
-        transition={{ duration: 0.6, delay: 0.2 }}
-        className="mt-8 p-6 rounded-2xl relative overflow-hidden"
-        style={{
-          background: '#1a1a1a',
-          border: '1px solid rgba(30,215,96,0.4)',
-        }}
+        transition={{ duration: 0.5 }}
+        className="text-center px-6 pt-2 pb-6"
       >
-        <div
-          className="absolute top-0 left-0 w-1 h-full rounded-l-2xl"
-          style={{ background: '#1ED760' }}
-        />
-        <p className="text-white/40 text-xs uppercase tracking-widest mb-3 font-semibold">
-          Mensagem especial 💌
+        <p className="text-white/40 text-xs uppercase tracking-widest mb-1">
+          Hitalo e Sara · desde 04/06/2024
         </p>
-        <p className="text-white/90 text-base leading-relaxed italic">
-          "Cada segundo ao seu lado é o melhor da minha vida. Você é minha música favorita, aquela que eu quero ouvir pra sempre. Te amo, Sara. 💚"
-        </p>
-        <p className="text-[#1ED760] text-sm mt-3 font-semibold text-right">— Hitalo</p>
       </motion.div>
+
+      {/* ── Grid 3 × 2 de contadores ─────────────────────── */}
+      <div className="grid grid-cols-3 px-4 pb-2">
+        {COUNTERS.map(({ key, label }, i) => (
+          <motion.div
+            key={key}
+            initial={{ opacity: 0, y: 24 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.45, delay: i * 0.07 }}
+            className="flex flex-col items-center py-7"
+            style={{
+              borderRight:  (i % 3 !== 2) ? '1px solid rgba(255,255,255,0.08)' : 'none',
+              borderBottom: (i < 3)       ? '1px solid rgba(255,255,255,0.08)' : 'none',
+            }}
+          >
+            <span
+              className="font-bold tabular-nums leading-none text-white"
+              style={{ fontSize: 'clamp(32px, 10vw, 46px)' }}
+            >
+              {String(time[key]).padStart(2, '0')}
+            </span>
+            <span className="text-white/45 text-xs mt-2 font-medium">{label}</span>
+          </motion.div>
+        ))}
+      </div>
+
+      {/* ── Mensagem especial ────────────────────────────── */}
+      <motion.div
+        initial={{ opacity: 0, y: 24 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true }}
+        transition={{ duration: 0.6, delay: 0.15 }}
+        className="mx-4 mb-8 mt-4 rounded-2xl overflow-hidden"
+        style={{ background: '#1ED760' }}
+      >
+        <div className="px-6 py-6">
+          <p className="text-black font-bold text-base uppercase tracking-wide mb-3">
+            Mensagem especial 💌
+          </p>
+          <p className="text-black/85 text-sm leading-relaxed font-medium italic">
+            "Você é o amor da minha vida e a pessoa que me faz querer ser melhor a cada dia. Obrigado por existir e por escolher estar ao meu lado. Te amo, Sara. 💚"
+          </p>
+          <p className="text-black/70 text-sm mt-3 font-bold text-right">— Hitalo</p>
+        </div>
+      </motion.div>
+
     </section>
   )
 }
