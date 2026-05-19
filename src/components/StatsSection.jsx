@@ -14,15 +14,16 @@ export default function StatsSection() {
   const time = useRelationshipTime()
 
   return (
-    <section className="bg-[#0e0e0e]">
+    <section className="bg-[#121212]">
 
-      {/* ── Foto do casal ─────────────────────────────────── */}
+      {/* ── Foto do casal ─────────────────────────────── */}
       <motion.div
-        initial={{ opacity: 0, scale: 1.05 }}
+        initial={{ opacity: 0, scale: 1.04 }}
         whileInView={{ opacity: 1, scale: 1 }}
         viewport={{ once: true }}
         transition={{ duration: 0.7 }}
-        className="w-full aspect-[4/3] overflow-hidden relative"
+        className="w-full overflow-hidden relative"
+        style={{ aspectRatio: '4/3' }}
       >
         <img
           src="/images/casal.jpg"
@@ -30,50 +31,52 @@ export default function StatsSection() {
           className="w-full h-full object-cover"
           onError={e => {
             e.target.style.display = 'none'
-            e.target.parentElement.style.background =
-              'linear-gradient(135deg, #0d3320 0%, #1a5c2e 100%)'
-            e.target.parentElement.innerHTML =
-              '<div style="width:100%;height:100%;display:flex;align-items:center;justify-content:center;font-size:72px">💚</div>'
+            const p = e.target.parentElement
+            p.style.background = 'linear-gradient(135deg,#1a1a2e,#16213e,#0f3460)'
+            p.innerHTML = `
+              <div style="width:100%;height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;color:rgba(255,255,255,0.25)">
+                <svg width="48" height="48" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24">
+                  <path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/>
+                  <circle cx="12" cy="13" r="4"/>
+                </svg>
+                <span style="font-size:13px;font-weight:500">A foto de vocês vai ficar aqui</span>
+              </div>`
           }}
         />
-        {/* Gradiente de transição para baixo */}
+        {/* fade bottom */}
         <div
-          className="absolute inset-x-0 bottom-0 h-24"
-          style={{ background: 'linear-gradient(to bottom, transparent, #0e0e0e)' }}
+          className="absolute inset-x-0 bottom-0 h-28 pointer-events-none"
+          style={{ background: 'linear-gradient(to bottom, transparent, #121212)' }}
         />
       </motion.div>
 
-      {/* ── Título / cabeçalho ───────────────────────────── */}
+      {/* ── Cabeçalho ─────────────────────────────────── */}
       <motion.div
-        initial={{ opacity: 0, y: 16 }}
+        initial={{ opacity: 0, y: 12 }}
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true }}
         transition={{ duration: 0.5 }}
-        className="text-center px-6 pt-2 pb-6"
+        className="px-5 pt-1 pb-5"
       >
-        <p className="text-white/40 text-xs uppercase tracking-widest mb-1">
-          Hitalo e Sara · desde 04/06/2024
-        </p>
+        <h2 className="text-white font-bold text-2xl leading-tight">Hitalo e Sara</h2>
+        <p className="text-white/45 text-sm mt-0.5">Juntos desde 2024</p>
       </motion.div>
 
-      {/* ── Grid 3 × 2 de contadores ─────────────────────── */}
-      <div className="grid grid-cols-3 px-4 pb-2">
+      {/* ── Grid 3×2 de contadores ────────────────────── */}
+      <div className="grid grid-cols-3 gap-3 px-5 pb-5">
         {COUNTERS.map(({ key, label }, i) => (
           <motion.div
             key={key}
-            initial={{ opacity: 0, y: 24 }}
+            initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            transition={{ duration: 0.45, delay: i * 0.07 }}
-            className="flex flex-col items-center py-7"
-            style={{
-              borderRight:  (i % 3 !== 2) ? '1px solid rgba(255,255,255,0.08)' : 'none',
-              borderBottom: (i < 3)       ? '1px solid rgba(255,255,255,0.08)' : 'none',
-            }}
+            transition={{ duration: 0.4, delay: i * 0.06 }}
+            className="flex flex-col items-center justify-center py-5 rounded-2xl"
+            style={{ background: '#1c1c1e' }}
           >
             <span
               className="font-bold tabular-nums leading-none text-white"
-              style={{ fontSize: 'clamp(32px, 10vw, 46px)' }}
+              style={{ fontSize: 'clamp(28px, 9vw, 40px)' }}
             >
               {String(time[key]).padStart(2, '0')}
             </span>
@@ -82,23 +85,21 @@ export default function StatsSection() {
         ))}
       </div>
 
-      {/* ── Mensagem especial ────────────────────────────── */}
+      {/* ── Mensagem especial ─────────────────────────── */}
       <motion.div
-        initial={{ opacity: 0, y: 24 }}
+        initial={{ opacity: 0, y: 20 }}
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true }}
-        transition={{ duration: 0.6, delay: 0.15 }}
-        className="mx-4 mb-8 mt-4 rounded-2xl overflow-hidden"
-        style={{ background: '#1ED760' }}
+        transition={{ duration: 0.55, delay: 0.1 }}
+        className="mx-5 mb-6 rounded-2xl overflow-hidden"
+        style={{ background: '#e03131' }}
       >
-        <div className="px-6 py-6">
-          <p className="text-black font-bold text-base uppercase tracking-wide mb-3">
-            Mensagem especial 💌
+        <div className="px-5 py-5">
+          <p className="text-white font-bold text-sm mb-3">Mensagem especial</p>
+          <p className="text-white font-bold leading-snug"
+             style={{ fontSize: 'clamp(18px, 5.5vw, 22px)' }}>
+            "Você é o amor da minha vida e a pessoa que me faz querer ser melhor a cada dia. Te amo, Sara. 💚"
           </p>
-          <p className="text-black/85 text-sm leading-relaxed font-medium italic">
-            "Você é o amor da minha vida e a pessoa que me faz querer ser melhor a cada dia. Obrigado por existir e por escolher estar ao meu lado. Te amo, Sara. 💚"
-          </p>
-          <p className="text-black/70 text-sm mt-3 font-bold text-right">— Hitalo</p>
         </div>
       </motion.div>
 

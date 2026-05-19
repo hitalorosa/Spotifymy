@@ -49,10 +49,16 @@ export default function SpotifyPlayer() {
             className="w-full h-full object-cover"
             onError={e => {
               e.target.style.display = 'none'
-              e.target.parentElement.style.background =
-                'linear-gradient(135deg, #1ED760 0%, #158a3e 100%)'
-              e.target.parentElement.innerHTML =
-                '<div style="width:100%;height:100%;display:flex;align-items:center;justify-content:center;font-size:80px">💚</div>'
+              const p = e.target.parentElement
+              p.style.background = '#1c2333'
+              p.innerHTML = `
+                <div style="width:100%;height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px;color:rgba(255,255,255,0.3)">
+                  <svg width="52" height="52" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24">
+                    <path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/>
+                    <circle cx="12" cy="13" r="4"/>
+                  </svg>
+                  <span style="font-size:13px;font-weight:500;letter-spacing:0.02em">A foto de vocês vai ficar aqui</span>
+                </div>`
             }}
           />
         </div>
